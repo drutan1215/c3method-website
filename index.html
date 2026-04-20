@@ -11,19 +11,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0A0A0C;
-      --bg2:       #111115;
-      --bg3:       #18181E;
-      --gold:      #C8973A;
-      --gold-lt:   #DFB060;
-      --gold-dim:  rgba(200,151,58,0.12);
-      --text:      #EDE8DF;
-      --muted:     #7D7870;
-      --dim:       #3A3830;
-      --border:    rgba(200,151,58,0.14);
-      --border2:   rgba(237,232,223,0.08);
-      --ff-disp:   'Cormorant Garamond', Georgia, serif;
-      --ff-body:   'DM Sans', system-ui, sans-serif;
+      --bg:      #0A0A0C;
+      --bg2:     #111115;
+      --bg3:     #18181E;
+      --gold:    #C8973A;
+      --gold-lt: #DFB060;
+      --text:    #EDE8DF;
+      --muted:   #7D7870;
+      --dim:     #3A3830;
+      --border:  rgba(200,151,58,0.14);
+      --border2: rgba(237,232,223,0.08);
+      --disp:    'Cormorant Garamond', Georgia, serif;
+      --body:    'DM Sans', system-ui, sans-serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -31,630 +30,430 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--ff-body);
+      font-family: var(--body);
       font-size: 16px;
       line-height: 1.6;
       overflow-x: hidden;
     }
 
-    /* grain overlay */
     body::after {
       content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.25;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 9999; opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    /* ───── SCROLLBAR ───── */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--gold); }
 
-    /* ───── NAV ───── */
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 500;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.5rem 4rem;
-      transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
+      padding: 1.4rem 4rem;
+      transition: background 0.4s, border-color 0.4s;
       border-bottom: 1px solid transparent;
     }
     nav.scrolled {
-      background: rgba(10,10,12,0.88);
+      background: rgba(10,10,12,0.9);
       backdrop-filter: blur(16px) saturate(180%);
       border-color: var(--border);
     }
     .nav-brand {
-      font-family: var(--ff-disp);
-      font-size: 1.4rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      color: var(--text);
-      text-decoration: none;
-      display: flex; align-items: baseline; gap: 0;
+      font-family: var(--disp); font-size: 1.4rem; font-weight: 600;
+      letter-spacing: 0.04em; color: var(--text); text-decoration: none;
     }
-    .nav-brand .accent { color: var(--gold); }
-    .nav-links {
-      display: flex; align-items: center; gap: 2.5rem; list-style: none;
-    }
+    .nav-brand .g { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
     .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
     .nav-cta {
       color: var(--gold) !important;
       border: 1px solid var(--border) !important;
-      padding: 0.55rem 1.25rem;
-      transition: background 0.2s, color 0.2s, border-color 0.2s !important;
+      padding: 0.5rem 1.2rem;
+      transition: background 0.2s, color 0.2s !important;
     }
-    .nav-cta:hover {
-      background: var(--gold) !important;
-      color: var(--bg) !important;
-      border-color: var(--gold) !important;
-    }
-    .hamburger {
-      display: none; flex-direction: column; gap: 5px; cursor: pointer;
-      padding: 4px;
-    }
-    .hamburger span {
-      display: block; width: 22px; height: 1.5px;
-      background: var(--text); transition: transform 0.3s, opacity 0.3s;
-    }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--bg) !important; }
 
-    /* ───── HERO ───── */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: 0.3s; }
+
+    /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; text-align: center;
     }
-    .hero-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 10rem 4rem 6rem;
-      position: relative;
-      z-index: 2;
-    }
-    .hero-right {
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      filter: grayscale(20%) contrast(1.05);
-      opacity: 0;
-      animation: imgReveal 1.2s 0.6s forwards;
-    }
-    @keyframes imgReveal {
-      from { opacity: 0; transform: scale(1.06); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-    .hero-img-overlay {
+    .hero-bg {
       position: absolute; inset: 0;
-      background: linear-gradient(
-        to right,
-        var(--bg) 0%,
-        rgba(10,10,12,0.5) 40%,
-        rgba(10,10,12,0) 100%
-      );
-    }
-    .hero-img-overlay2 {
-      position: absolute; inset: 0;
-      background: linear-gradient(
-        to top,
-        var(--bg) 0%,
-        transparent 30%
-      );
-    }
-    .hero-grid-bg {
-      position: absolute; inset: 0; z-index: 1;
       background-image:
         linear-gradient(90deg, rgba(200,151,58,0.025) 1px, transparent 1px),
         linear-gradient(180deg, rgba(200,151,58,0.025) 1px, transparent 1px);
       background-size: 72px 72px;
     }
     .hero-glow {
-      position: absolute; inset: 0; z-index: 1;
-      background: radial-gradient(ellipse 70% 70% at 30% 50%, rgba(200,151,58,0.055) 0%, transparent 60%);
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(200,151,58,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 80% 70%, rgba(200,151,58,0.03) 0%, transparent 50%);
     }
+    .hero-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(200,151,58,0.07); pointer-events: none;
+    }
+    .hero-ring:nth-child(1) { width: 500px; height: 500px; }
+    .hero-ring:nth-child(2) { width: 800px; height: 800px; }
+    .hero-ring:nth-child(3) { width: 1100px; height: 1100px; border-color: rgba(200,151,58,0.04); }
 
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.75rem;
-      display: flex; align-items: center; gap: 0.9rem;
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 820px; padding: 10rem 4rem 6rem;
+    }
+    .hero-tag {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+      margin-bottom: 2rem;
       opacity: 0; animation: fadeUp 0.7s 0.3s forwards;
     }
-    .hero-eyebrow::before {
-      content: '';
-      display: block; width: 28px; height: 1px;
-      background: var(--gold);
+    .hero-tag::before, .hero-tag::after {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--gold);
     }
     .hero-h1 {
-      font-family: var(--ff-disp);
-      font-size: clamp(3.8rem, 7vw, 6.5rem);
-      font-weight: 300;
-      line-height: 0.92;
-      letter-spacing: -0.01em;
-      margin-bottom: 1.5rem;
+      font-family: var(--disp);
+      font-size: clamp(4rem, 9vw, 7.5rem);
+      font-weight: 300; line-height: 0.9; letter-spacing: -0.01em;
+      margin-bottom: 1.2rem;
       opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
     }
-    .hero-h1 .c3 {
-      display: block;
-      font-weight: 700;
-      font-style: italic;
+    .hero-h1 .big {
+      display: block; font-weight: 700; font-style: italic;
     }
-    .hero-h1 .c3 span { color: var(--gold); }
-    .hero-h1 .method {
-      display: block;
-      font-weight: 300;
-      color: var(--muted);
-      font-size: 0.55em;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      font-style: normal;
-      margin-top: 0.4em;
+    .hero-h1 .big .g { color: var(--gold); }
+    .hero-h1 .sub {
+      display: block; font-weight: 300; color: var(--muted);
+      font-size: 0.5em; letter-spacing: 0.28em;
+      text-transform: uppercase; font-style: normal;
+      margin-top: 0.5em;
     }
-    .hero-tagline {
-      font-family: var(--ff-disp);
-      font-size: clamp(1rem, 2vw, 1.35rem);
-      font-style: italic;
-      font-weight: 300;
-      color: var(--muted);
-      margin-bottom: 3rem;
-      line-height: 1.5;
+    .hero-line {
+      font-family: var(--disp); font-size: clamp(1rem, 2.2vw, 1.4rem);
+      font-style: italic; font-weight: 300; color: var(--muted);
+      margin-bottom: 3rem; line-height: 1.5;
       opacity: 0; animation: fadeUp 0.8s 0.7s forwards;
     }
-    .hero-tagline strong { color: var(--text); font-style: normal; font-weight: 500; }
+    .hero-line strong { color: var(--text); font-style: normal; font-weight: 500; }
     .hero-btns {
-      display: flex; gap: 1rem; flex-wrap: wrap;
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
       opacity: 0; animation: fadeUp 0.8s 0.9s forwards;
     }
     .btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      text-decoration: none;
-      font-family: var(--ff-body);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.9rem 2rem;
-      transition: all 0.25s;
+      text-decoration: none; font-family: var(--body);
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.9rem 2rem; transition: all 0.25s;
       cursor: pointer; border: none;
     }
-    .btn-gold {
-      background: var(--gold); color: var(--bg);
-    }
+    .btn-gold { background: var(--gold); color: var(--bg); }
     .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
-    .btn-outline {
-      background: transparent; color: var(--text);
-      border: 1px solid var(--border2);
-    }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border2); }
     .btn-outline:hover { border-color: var(--text); }
 
-    .hero-scroll-cue {
-      position: absolute; bottom: 2.5rem; left: 4rem;
-      display: flex; align-items: center; gap: 1rem;
-      opacity: 0; animation: fadeIn 1s 1.3s forwards;
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 0.9rem;
+      opacity: 0; animation: fadeIn 1s 1.2s forwards;
     }
-    .scroll-line {
+    .hero-scroll span { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); }
+    .scroll-ln {
       width: 40px; height: 1px;
       background: linear-gradient(to right, var(--gold), transparent);
       animation: scrollPulse 2.5s infinite;
     }
-    .hero-scroll-cue span {
-      font-size: 0.68rem; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--dim);
-    }
 
-    /* ───── STATS BAR ───── */
-    .stats-bar {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .stats-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(4,1fr);
-    }
-    .stat {
-      padding: 3rem 2rem;
-      text-align: center;
-      border-right: 1px solid var(--border);
-    }
+    /* ── STATS ── */
+    .stats-bar { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); }
+    .stat { padding: 3rem 2rem; text-align: center; border-right: 1px solid var(--border); }
     .stat:last-child { border-right: none; }
-    .stat-num {
-      font-family: var(--ff-disp);
-      font-size: clamp(2.5rem, 4vw, 3.5rem);
-      font-weight: 300;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 0.4rem;
+    .stat-n {
+      font-family: var(--disp); font-size: clamp(2.5rem,4vw,3.5rem);
+      font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 0.4rem;
     }
-    .stat-label {
-      font-size: 0.72rem; font-weight: 500;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--muted);
-    }
+    .stat-l { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
 
-    /* ───── SECTION BASE ───── */
+    /* ── SECTION BASE ── */
     section { padding: 8rem 4rem; }
     .inner { max-width: 1200px; margin: 0 auto; }
-    .section-tag {
-      font-size: 0.7rem; font-weight: 500;
-      letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--gold);
-      display: flex; align-items: center; gap: 0.9rem;
-      margin-bottom: 1.5rem;
+    .stag {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.5rem;
     }
-    .section-tag::before {
-      content: ''; display: block;
-      width: 24px; height: 1px; background: var(--gold);
+    .stag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+    .sh2 {
+      font-family: var(--disp); font-size: clamp(2.2rem,4.5vw,3.5rem);
+      font-weight: 300; line-height: 1.1; margin-bottom: 1.5rem;
     }
-    .section-h2 {
-      font-family: var(--ff-disp);
-      font-size: clamp(2.2rem, 4.5vw, 3.5rem);
-      font-weight: 300;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-    }
-    .section-h2 em { font-style: italic; color: var(--gold); }
-    .section-body {
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.85;
-      max-width: 520px;
-    }
-    .section-body strong { color: var(--text); font-weight: 500; }
+    .sh2 em { font-style: italic; color: var(--gold); }
+    .sbody { color: var(--muted); font-size: 1rem; line-height: 1.85; max-width: 520px; }
+    .sbody strong { color: var(--text); font-weight: 500; }
 
-    /* ───── ABOUT ───── */
+    /* ── ABOUT ── */
     .about { background: var(--bg); }
-    .about-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 7rem; align-items: start;
-    }
-    .creds {
-      display: flex; flex-direction: column; gap: 0.6rem;
-      margin-top: 2.5rem;
-    }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: start; }
+    .creds { display: flex; flex-direction: column; gap: 0.55rem; margin-top: 2.5rem; }
     .cred {
       display: flex; align-items: center; gap: 1rem;
-      padding: 0.8rem 1rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
+      padding: 0.75rem 1rem; background: var(--bg2); border: 1px solid var(--border);
       transition: border-color 0.2s, background 0.2s;
     }
     .cred:hover { border-color: rgba(200,151,58,0.4); background: var(--bg3); }
-    .cred-dot {
-      width: 6px; height: 6px;
-      background: var(--gold); flex-shrink: 0;
-    }
+    .cred-dot { width: 6px; height: 6px; background: var(--gold); flex-shrink: 0; }
     .cred span { font-size: 0.82rem; color: var(--muted); }
 
-    .about-right { display: flex; flex-direction: column; gap: 1.5rem; }
     .quote-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      padding: 2.5rem;
-      position: relative;
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: 2.5rem; position: relative;
     }
     .quote-card::before {
-      content: '\201C';
-      font-family: var(--ff-disp);
-      font-size: 7rem;
-      line-height: 1;
-      color: var(--gold);
-      opacity: 0.12;
-      position: absolute;
-      top: -0.5rem; left: 1.2rem;
+      content: '\201C'; font-family: var(--disp); font-size: 7rem; line-height: 1;
+      color: var(--gold); opacity: 0.12;
+      position: absolute; top: -0.5rem; left: 1.2rem;
     }
     .quote-card blockquote {
-      font-family: var(--ff-disp);
-      font-size: 1.3rem;
-      font-weight: 300;
-      font-style: italic;
-      line-height: 1.65;
-      color: var(--text);
-      margin-bottom: 1.5rem;
+      font-family: var(--disp); font-size: 1.3rem; font-weight: 300;
+      font-style: italic; line-height: 1.65; color: var(--text); margin-bottom: 1.5rem;
     }
-    .quote-card cite {
-      font-style: normal;
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
+    .quote-card cite { font-style: normal; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
 
-    .photo-frame {
-      position: relative;
-      overflow: hidden;
-      aspect-ratio: 4/3;
-    }
-    .photo-frame img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      filter: grayscale(15%) contrast(1.05);
-      transition: transform 0.6s ease;
-    }
-    .photo-frame:hover img { transform: scale(1.03); }
-    .photo-frame-label {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 1rem 1.25rem;
-      background: linear-gradient(to top, rgba(10,10,12,0.9), transparent);
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    /* ───── SERVICES ───── */
+    /* ── SERVICES ── */
     .services { background: var(--bg2); }
-    .services-head {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 4rem; flex-wrap: wrap; gap: 2rem;
-    }
-    .svcs-grid {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      border: 1px solid var(--border);
-    }
+    .svc-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 4rem; flex-wrap: wrap; gap: 2rem; }
+    .svcs { display: grid; grid-template-columns: repeat(2,1fr); border: 1px solid var(--border); }
     .svc {
-      padding: 3rem;
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      position: relative; overflow: hidden;
-      transition: background 0.3s;
+      padding: 3rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden; transition: background 0.3s;
     }
     .svc:nth-child(2n) { border-right: none; }
     .svc:nth-child(3), .svc:nth-child(4) { border-bottom: none; }
     .svc:hover { background: var(--bg3); }
     .svc::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0;
+      content: ''; position: absolute; bottom: 0; left: 0;
       width: 0; height: 2px;
       background: linear-gradient(to right, var(--gold), transparent);
       transition: width 0.5s ease;
     }
     .svc:hover::after { width: 100%; }
-
-    .svc-num {
-      font-family: var(--ff-disp);
-      font-size: 4.5rem; font-weight: 300;
-      color: var(--dim); line-height: 1;
-      margin-bottom: 1.5rem;
-      transition: color 0.3s;
+    .svc-n {
+      font-family: var(--disp); font-size: 4.5rem; font-weight: 300;
+      color: var(--dim); line-height: 1; margin-bottom: 1.5rem; transition: color 0.3s;
     }
-    .svc:hover .svc-num { color: rgba(200,151,58,0.18); }
-    .svc-title {
-      font-family: var(--ff-disp);
-      font-size: 1.55rem; font-weight: 500;
-      margin-bottom: 0.85rem; color: var(--text);
-    }
-    .svc-desc {
-      font-size: 0.88rem; color: var(--muted);
-      line-height: 1.75; margin-bottom: 1.5rem;
-    }
+    .svc:hover .svc-n { color: rgba(200,151,58,0.18); }
+    .svc-t { font-family: var(--disp); font-size: 1.55rem; font-weight: 500; margin-bottom: 0.85rem; color: var(--text); }
+    .svc-d { font-size: 0.88rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.5rem; }
     .svc-badge {
-      display: inline-block;
-      font-size: 0.68rem; font-weight: 500;
+      display: inline-block; font-size: 0.68rem; font-weight: 500;
       letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid var(--border);
-      padding: 0.3rem 0.75rem;
+      color: var(--gold); border: 1px solid var(--border); padding: 0.3rem 0.75rem;
     }
 
-    /* ───── PARTNERS ───── */
-    .partners { background: var(--bg); }
-    .partners-head { margin-bottom: 4rem; }
-    .partners-intro {
-      font-size: 0.92rem; color: var(--muted);
-      line-height: 1.8; max-width: 480px;
-      margin-top: 1rem;
+    /* ── PARTNERS MARQUEE ── */
+    .partners { background: var(--bg); overflow: hidden; padding: 6rem 0; }
+    .partners .inner { padding: 0 4rem; }
+    .partners-hd { margin-bottom: 3.5rem; padding: 0 4rem; }
+    .marquee-wrap {
+      position: relative;
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
-    .partners-grid {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 1.5px;
-      background: var(--border);
+    .marquee-track {
+      display: flex; gap: 0px;
+      width: max-content;
+      animation: marquee 30s linear infinite;
     }
-    .partner-card {
-      background: var(--bg2);
-      padding: 3rem 2.5rem;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 1.5rem;
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .partner-tile {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1rem; padding: 2rem 3rem; min-width: 200px;
+      border-right: 1px solid var(--border);
       transition: background 0.3s;
-      text-align: center;
+      flex-shrink: 0;
     }
-    .partner-card:hover { background: var(--bg3); }
-    .partner-logo {
-      height: 72px; width: auto;
+    .partner-tile:hover { background: var(--bg2); }
+    .p-logo {
+      height: 56px; width: 140px;
       object-fit: contain;
-      filter: grayscale(100%) brightness(0.7);
+      filter: grayscale(100%) brightness(0.55);
       transition: filter 0.4s;
     }
-    .partner-card:hover .partner-logo {
-      filter: grayscale(0%) brightness(1);
+    .partner-tile:hover .p-logo { filter: grayscale(0%) brightness(1); }
+    .p-name {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--dim);
+      transition: color 0.3s; text-align: center;
+      max-width: 160px; line-height: 1.4;
     }
-    .partner-name {
-      font-size: 0.72rem; font-weight: 500;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--dim);
-      transition: color 0.3s;
-    }
-    .partner-card:hover .partner-name { color: var(--muted); }
+    .partner-tile:hover .p-name { color: var(--muted); }
 
-    /* ───── PODCAST ───── */
-    .podcast { background: var(--bg2); }
-    .podcast-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 7rem; align-items: center;
-    }
-    .podcast-stats {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1px; background: var(--border);
-      margin-top: 3rem;
-    }
-    .pod-stat {
-      background: var(--bg2); padding: 1.5rem;
-    }
-    .pod-stat-num {
-      font-family: var(--ff-disp);
-      font-size: 2.2rem; font-weight: 300;
-      color: var(--gold); line-height: 1;
-      margin-bottom: 0.2rem;
-    }
-    .pod-stat-lbl {
-      font-size: 0.7rem; font-weight: 500;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--muted);
-    }
-    .podcast-card {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      padding: 2.5rem;
-    }
-    .waveform {
-      display: flex; align-items: center; gap: 3px;
-      height: 52px; margin-bottom: 2rem;
-    }
-    .wbar {
-      flex: 1; background: var(--gold); opacity: 0.25;
-      border-radius: 1px;
-      animation: wave 1.5s ease-in-out infinite;
-    }
-    .podcast-card-title {
-      font-family: var(--ff-disp);
-      font-size: 1.3rem; font-weight: 500;
-      margin-bottom: 0.5rem;
-    }
-    .podcast-card-desc {
-      font-size: 0.85rem; color: var(--muted); line-height: 1.7;
-      margin-bottom: 1.5rem;
-    }
-    .platforms {
-      display: flex; gap: 0.6rem; flex-wrap: wrap;
-    }
-    .platform {
-      font-size: 0.68rem; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 0.3rem 0.7rem;
-    }
-
-    /* ───── CTA ───── */
-    .cta-wrap {
-      padding: 9rem 4rem;
-      background: var(--bg);
-      position: relative; overflow: hidden;
-      text-align: center;
-    }
-    .cta-wrap::before {
-      content: '';
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 65% 65% at 50% 50%, rgba(200,151,58,0.055) 0%, transparent 65%),
-        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(200,151,58,0.03) 0%, transparent 50%);
-    }
-    .cta-inner { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
-    .cta-h2 {
-      font-family: var(--ff-disp);
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 300; line-height: 1.05;
-      margin-bottom: 1.5rem;
-    }
-    .cta-h2 em { font-style: italic; color: var(--gold); }
-    .cta-sub {
-      color: var(--muted); font-size: 1rem;
-      line-height: 1.8; margin-bottom: 3rem;
-    }
-    .cta-divider {
-      width: 1px; height: 60px;
-      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-      margin: 0 auto 3rem;
-    }
-
-    /* ───── FOOTER ───── */
-    footer {
-      padding: 2.5rem 4rem;
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-    }
-    .footer-inner {
+    /* ── GALLERY ── */
+    .gallery { background: var(--bg2); padding-bottom: 8rem; }
+    .gallery .inner { padding-bottom: 0; }
+    .gallery-hd { padding: 8rem 4rem 3rem; max-width: 1200px; margin: 0 auto; }
+    .gallery-grid {
       max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
+      padding: 0 4rem;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 220px;
+      gap: 4px;
     }
-    .footer-brand {
-      font-family: var(--ff-disp);
-      font-size: 1.15rem; font-weight: 600;
-      letter-spacing: 0.04em; color: var(--text);
-      text-decoration: none;
+    .gi {
+      position: relative; overflow: hidden; cursor: zoom-in;
+      background: var(--bg3);
     }
-    .footer-brand .accent { color: var(--gold); }
-    .footer-tagline {
-      font-family: var(--ff-disp);
-      font-style: italic; font-size: 0.95rem;
+    .gi img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), filter 0.4s;
+      filter: grayscale(8%);
+    }
+    .gi:hover img { transform: scale(1.07); filter: grayscale(0%); }
+    .gi-cap {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.5rem 1rem 0.85rem;
+      background: linear-gradient(to top, rgba(10,10,12,0.85), transparent);
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--muted);
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 0.3s, transform 0.3s;
     }
-    .footer-copy {
-      font-size: 0.75rem;
-      color: var(--dim);
-    }
+    .gi:hover .gi-cap { opacity: 1; transform: none; }
 
-    /* ───── ANIMATIONS ───── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-    }
-    @keyframes scrollPulse {
-      0%,100% { transform: scaleX(1); opacity: 0.5; }
-      50%      { transform: scaleX(1.3); opacity: 1; }
-    }
-    @keyframes wave {
-      0%,100% { transform: scaleY(0.15); }
-      50%      { transform: scaleY(1); }
-    }
+    /* Grid layout — 10 photos across 12 cols */
+    /* Row 1: 3 tiles */
+    .gi:nth-child(1)  { grid-column: span 5; grid-row: span 2; } /* tall feature */
+    .gi:nth-child(2)  { grid-column: span 4; }
+    .gi:nth-child(3)  { grid-column: span 3; }
+    /* Row 2 (continuing row 1 right side) */
+    .gi:nth-child(4)  { grid-column: span 4; }
+    .gi:nth-child(5)  { grid-column: span 3; }
+    /* Row 3: 3 tiles */
+    .gi:nth-child(6)  { grid-column: span 3; }
+    .gi:nth-child(7)  { grid-column: span 5; grid-row: span 2; } /* tall feature */
+    .gi:nth-child(8)  { grid-column: span 4; }
+    /* Row 4 */
+    .gi:nth-child(9)  { grid-column: span 4; }
+    .gi:nth-child(10) { grid-column: span 3; }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(36px);
-      transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1),
-                  transform 0.85s cubic-bezier(0.16,1,0.3,1);
+    /* Lightbox */
+    .lb {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(10,10,12,0.96);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
     }
-    .reveal.in { opacity: 1; transform: none; }
+    .lb.open { opacity: 1; pointer-events: all; }
+    .lb-img {
+      max-width: 90vw; max-height: 88vh; object-fit: contain;
+      transform: scale(0.93);
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .lb.open .lb-img { transform: scale(1); }
+    .lb-x {
+      position: absolute; top: 1.5rem; right: 2rem;
+      font-size: 1.3rem; color: var(--muted); cursor: pointer;
+      background: none; border: none; transition: color 0.2s;
+      line-height: 1;
+    }
+    .lb-x:hover { color: var(--text); }
+    .lb-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: none; border: none;
+      font-size: 1.8rem; color: var(--muted); cursor: pointer;
+      padding: 1rem; transition: color 0.2s;
+    }
+    .lb-nav:hover { color: var(--text); }
+    .lb-prev { left: 1rem; }
+    .lb-next { right: 1rem; }
 
-    /* ───── RESPONSIVE ───── */
+    /* ── PODCAST ── */
+    .podcast { background: var(--bg); }
+    .pod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+    .pod-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border); margin-top: 3rem;
+    }
+    .pod-s { background: var(--bg); padding: 1.5rem; }
+    .pod-sn { font-family: var(--disp); font-size: 2.2rem; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 0.2rem; }
+    .pod-sl { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .pod-card { background: var(--bg2); border: 1px solid var(--border); padding: 2.5rem; }
+    .waveform { display: flex; align-items: center; gap: 3px; height: 52px; margin-bottom: 2rem; }
+    .wbar { flex: 1; background: var(--gold); opacity: 0.25; border-radius: 1px; animation: wave 1.5s ease-in-out infinite; }
+    .pod-ct { font-family: var(--disp); font-size: 1.3rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .pod-cd { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+    .platforms { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .platform { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); padding: 0.3rem 0.7rem; }
+
+    /* ── CTA ── */
+    .cta { padding: 9rem 4rem; background: var(--bg2); text-align: center; position: relative; overflow: hidden; }
+    .cta::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 65% 65% at 50% 50%, rgba(200,151,58,0.055) 0%, transparent 65%);
+    }
+    .cta-in { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .cta-div { width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, var(--gold), transparent); margin: 0 auto 3rem; }
+    .cta-h { font-family: var(--disp); font-size: clamp(2.5rem,6vw,5rem); font-weight: 300; line-height: 1.05; margin-bottom: 1.5rem; }
+    .cta-h em { font-style: italic; color: var(--gold); }
+    .cta-s { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 3rem; }
+
+    /* ── FOOTER ── */
+    footer { padding: 2.5rem 4rem; background: var(--bg); border-top: 1px solid var(--border); }
+    .foot { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .foot-brand { font-family: var(--disp); font-size: 1.15rem; font-weight: 600; letter-spacing: 0.04em; color: var(--text); text-decoration: none; }
+    .foot-brand .g { color: var(--gold); }
+    .foot-tag { font-family: var(--disp); font-style: italic; font-size: 0.95rem; color: var(--muted); }
+    .foot-copy { font-size: 0.75rem; color: var(--dim); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scrollPulse { 0%,100% { transform: scaleX(1); opacity: 0.5; } 50% { transform: scaleX(1.3); opacity: 1; } }
+    @keyframes wave { 0%,100% { transform: scaleY(0.15); } 50% { transform: scaleY(1); } }
+
+    .rv {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+    }
+    .rv.in { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
-      nav, section, footer { padding-left: 2.5rem; padding-right: 2.5rem; }
-      .cta-wrap { padding-left: 2.5rem; padding-right: 2.5rem; }
-      .hero-left { padding: 9rem 2.5rem 5rem; }
-      .hero-scroll-cue { left: 2.5rem; }
-      .about-grid, .podcast-grid { gap: 4rem; }
+      nav, footer { padding-left: 2.5rem; padding-right: 2.5rem; }
+      section { padding-left: 2.5rem; padding-right: 2.5rem; }
+      .cta { padding-left: 2.5rem; padding-right: 2.5rem; }
+      .gallery-grid, .gallery-hd { padding-left: 2.5rem; padding-right: 2.5rem; }
+      .partners-hd { padding-left: 2.5rem; padding-right: 2.5rem; }
+      .about-grid, .pod-grid { gap: 4rem; }
+      .hero-content { padding-left: 2.5rem; padding-right: 2.5rem; }
     }
-
     @media (max-width: 860px) {
       nav { padding: 1.25rem 1.5rem; }
-      .nav-links { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      .nav-links {
+        display: none; position: fixed; inset: 0;
         background: rgba(10,10,12,0.97);
         flex-direction: column; justify-content: center; align-items: center;
         gap: 2.5rem; z-index: 499;
@@ -662,59 +461,63 @@
       .nav-links.open { display: flex; }
       .nav-links a { font-size: 1rem; }
       .hamburger { display: flex; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-      .hero-left { padding: 8rem 1.5rem 5rem; }
-      .hero-scroll-cue { left: 1.5rem; }
+      .hero-content { padding: 8rem 1.5rem 6rem; }
+      section { padding: 5rem 1.5rem; }
+      .cta { padding: 6rem 1.5rem; }
+      footer { padding: 2rem 1.5rem; }
+      .gallery-grid, .gallery-hd { padding: 0 1.5rem; }
+      .gallery-hd { padding-top: 5rem; }
+      .partners-hd { padding: 0 1.5rem; }
       .stats-inner { grid-template-columns: repeat(2,1fr); }
       .stat:nth-child(2) { border-right: none; }
       .stat:nth-child(3) { border-right: 1px solid var(--border); }
-      section { padding: 5rem 1.5rem; }
-      .cta-wrap { padding: 6rem 1.5rem; }
-      footer { padding: 2rem 1.5rem; }
-      .about-grid, .podcast-grid { grid-template-columns: 1fr; }
-      .svcs-grid { grid-template-columns: 1fr; }
+      .about-grid, .pod-grid { grid-template-columns: 1fr; }
+      .svcs { grid-template-columns: 1fr; }
       .svc { border-right: none !important; }
       .svc:nth-child(3) { border-bottom: 1px solid var(--border) !important; }
-      .partners-grid { grid-template-columns: 1fr; }
-      .footer-inner { flex-direction: column; text-align: center; }
+      .svc:nth-child(4) { border-bottom: none; }
+      .foot { flex-direction: column; text-align: center; }
+      /* Gallery stacks on mobile */
+      .gallery-grid { grid-template-columns: repeat(2,1fr); grid-auto-rows: 180px; }
+      .gi { grid-column: span 1 !important; grid-row: span 1 !important; }
     }
-
     @media (max-width: 520px) {
-      .stats-inner { grid-template-columns: repeat(2,1fr); }
-      .podcast-stats { grid-template-columns: repeat(2,1fr); }
+      .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 240px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
+<!-- NAV -->
 <nav id="nav">
-  <a href="#" class="nav-brand">C<span class="accent">3</span>Method</a>
+  <a href="#" class="nav-brand">C<span class="g">3</span>Method</a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#partners">Partners</a></li>
+    <li><a href="#gallery">Gallery</a></li>
     <li><a href="#podcast">Podcast</a></li>
     <li><a href="#contact" class="nav-cta">Book Consultation</a></li>
   </ul>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
+  <button class="hamburger" id="hb" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- ══ HERO ══ -->
+<!-- HERO -->
 <div class="hero">
-  <div class="hero-grid-bg"></div>
+  <div class="hero-bg"></div>
   <div class="hero-glow"></div>
-
-  <div class="hero-left">
-    <p class="hero-eyebrow">Elite Performance Coaching</p>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-content">
+    <p class="hero-tag">Elite Performance Coaching</p>
     <h1 class="hero-h1">
-      <span class="c3">C<span>3</span></span>
-      <span class="method">Method</span>
+      <span class="big">C<span class="g">3</span></span>
+      <span class="sub">Method</span>
     </h1>
-    <p class="hero-tagline">
+    <p class="hero-line">
       <strong>Clear.</strong> Concise. <strong>Customized.</strong><br>
       High-touch coaching built around your specific outcome.
     </p>
@@ -722,59 +525,36 @@
       <a href="#contact" class="btn btn-gold">Request Consultation</a>
       <a href="#about" class="btn btn-outline">Learn More</a>
     </div>
-    <div class="hero-scroll-cue">
-      <div class="scroll-line"></div>
+    <div class="hero-scroll">
+      <div class="scroll-ln"></div>
       <span>Scroll</span>
     </div>
   </div>
-
-  <div class="hero-right">
-    <img
-      class="hero-img"
-      src="02_a5c8d669c566468a9d40706668e02d8d_320441870_1998821490449934_3233756459709953176_n-edited-1200x1500.jpg.jpeg"
-      alt="Rob with a championship athlete"
-    >
-    <div class="hero-img-overlay"></div>
-    <div class="hero-img-overlay2"></div>
-  </div>
 </div>
 
-<!-- ══ STATS BAR ══ -->
+<!-- STATS -->
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat reveal">
-      <div class="stat-num" data-target="25">0</div>
-      <div class="stat-label">Years Experience</div>
-    </div>
-    <div class="stat reveal">
-      <div class="stat-num" data-target="3000">0</div>
-      <div class="stat-num-plus" style="display:none">+</div>
-      <div class="stat-label">Clients Served</div>
-    </div>
-    <div class="stat reveal">
-      <div class="stat-num" data-target="2000">0</div>
-      <div class="stat-label">Podcast Episodes</div>
-    </div>
-    <div class="stat reveal">
-      <div class="stat-num" data-target="100">0</div>
-      <div class="stat-label">Countries Reached</div>
-    </div>
+    <div class="stat rv"><div class="stat-n" data-target="25">0</div><div class="stat-l">Years Experience</div></div>
+    <div class="stat rv"><div class="stat-n" data-target="3000">0</div><div class="stat-l">Clients Served</div></div>
+    <div class="stat rv"><div class="stat-n" data-target="2000">0</div><div class="stat-l">Podcast Episodes</div></div>
+    <div class="stat rv"><div class="stat-n" data-target="100">0</div><div class="stat-l">Countries Reached</div></div>
   </div>
 </div>
 
-<!-- ══ ABOUT ══ -->
+<!-- ABOUT -->
 <section class="about" id="about">
   <div class="inner">
     <div class="about-grid">
       <div>
-        <div class="section-tag reveal">About Rob</div>
-        <h2 class="section-h2 reveal">A Different Kind<br>of <em>Coach</em></h2>
-        <div class="section-body reveal">
+        <div class="stag rv">About Rob</div>
+        <h2 class="sh2 rv">A Different Kind<br>of <em>Coach</em></h2>
+        <div class="sbody rv">
           <p>With over <strong>25 years in the fitness industry</strong> and more than 3,000 clients served, Rob brings a rare combination of academic rigor and real-world mastery. He has coached athletes to IFBB &amp; Natural Pro Cards, Elite Totals, World Records, and D1 scholarships.</p>
           <br>
-          <p>The C3 Method isn't a template — it's a precision-built system distilling complex science into programs that fit your exact biology, schedule, and goals. Every variable is considered. Nothing is generic.</p>
+          <p>The C3 Method distills complex science into programs that fit your exact biology, schedule, and goals. Every variable is considered. Nothing is generic.</p>
         </div>
-        <div class="creds reveal">
+        <div class="creds rv">
           <div class="cred"><div class="cred-dot"></div><span>Master's Degree in Nutrition</span></div>
           <div class="cred"><div class="cred-dot"></div><span>BS Health &amp; Physical Education</span></div>
           <div class="cred"><div class="cred-dot"></div><span>ACSM Certified Personal Trainer</span></div>
@@ -784,124 +564,169 @@
           <div class="cred"><div class="cred-dot"></div><span>500+ University Students Taught</span></div>
         </div>
       </div>
-
-      <div class="about-right">
-        <div class="quote-card reveal">
+      <div class="rv">
+        <div class="quote-card">
           <blockquote>"The difference between average results and extraordinary ones isn't effort — it's precision. Every program I build is designed with one singular focus: your specific outcome."</blockquote>
           <cite>— Rob, C3Method Founder</cite>
-        </div>
-        <div class="photo-frame reveal">
-          <img
-            src="02_a5c8d669c566468a9d40706668e02d8d_320441870_1998821490449934_3233756459709953176_n-edited-1200x1500.jpg.jpeg"
-            alt="Rob celebrating a championship win with his athlete"
-          >
-          <div class="photo-frame-label">Competition Day — Client Championship Win</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ SERVICES ══ -->
+<!-- SERVICES -->
 <section class="services" id="services">
   <div class="inner">
-    <div class="services-head">
+    <div class="svc-head">
       <div>
-        <div class="section-tag reveal">What We Offer</div>
-        <h2 class="section-h2 reveal">Services Built for<br><em>Serious Outcomes</em></h2>
+        <div class="stag rv">What We Offer</div>
+        <h2 class="sh2 rv">Services Built for<br><em>Serious Outcomes</em></h2>
       </div>
-      <a href="#contact" class="btn btn-outline reveal">Start Today</a>
+      <a href="#contact" class="btn btn-outline rv">Start Today</a>
     </div>
-    <div class="svcs-grid">
-      <div class="svc reveal">
-        <div class="svc-num">01</div>
-        <h3 class="svc-title">1:1 Coaching</h3>
-        <p class="svc-desc">Fully personalized training programs designed around your specific goals, schedule, and physiology. No templates, no guesswork — just precision-built programming that adapts as you progress.</p>
+    <div class="svcs">
+      <div class="svc rv">
+        <div class="svc-n">01</div>
+        <h3 class="svc-t">1:1 Coaching</h3>
+        <p class="svc-d">Fully personalized training programs designed around your specific goals, schedule, and physiology. No templates, no guesswork — precision-built programming that adapts as you progress.</p>
         <span class="svc-badge">High Touch</span>
       </div>
-      <div class="svc reveal">
-        <div class="svc-num">02</div>
-        <h3 class="svc-title">Nutrition Coaching</h3>
-        <p class="svc-desc">Evidence-based nutrition strategies tailored to your body composition goals, performance targets, and lifestyle. From competitive prep to GLP-1 support — science-backed, results-proven.</p>
+      <div class="svc rv">
+        <div class="svc-n">02</div>
+        <h3 class="svc-t">Nutrition Coaching</h3>
+        <p class="svc-d">Evidence-based nutrition strategies tailored to your body composition goals, performance targets, and lifestyle. From competitive prep to GLP-1 support — science-backed, results-proven.</p>
         <span class="svc-badge">Science-Based</span>
       </div>
-      <div class="svc reveal">
-        <div class="svc-num">03</div>
-        <h3 class="svc-title">Business Implementation</h3>
-        <p class="svc-desc">Helping fitness professionals build scalable systems and grow their client base. Leverage Rob's 25 years of industry expertise to optimize your operations, offerings, and impact.</p>
+      <div class="svc rv">
+        <div class="svc-n">03</div>
+        <h3 class="svc-t">Business Implementation</h3>
+        <p class="svc-d">Helping fitness professionals build scalable systems. Leverage Rob's 25 years of industry expertise to optimize your operations, offerings, and client experience.</p>
         <span class="svc-badge">For Professionals</span>
       </div>
-      <div class="svc reveal">
-        <div class="svc-num">04</div>
-        <h3 class="svc-title">AI Implementation</h3>
-        <p class="svc-desc">Cutting-edge AI tools integrated into your coaching practice or fitness business. Automate, enhance, and scale what you do best — while staying ahead of an evolving industry.</p>
+      <div class="svc rv">
+        <div class="svc-n">04</div>
+        <h3 class="svc-t">AI Implementation</h3>
+        <p class="svc-d">Cutting-edge AI tools integrated into your coaching practice or fitness business. Automate, enhance, and scale what you do best — while staying ahead of an evolving industry.</p>
         <span class="svc-badge">Future-Forward</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ PARTNERS ══ -->
-<section class="partners" id="partners">
-  <div class="inner">
-    <div class="partners-head">
-      <div class="section-tag reveal">Partner Facilities</div>
-      <h2 class="section-h2 reveal">Trusted by the<br><em>Best in the Region</em></h2>
-      <p class="partners-intro reveal">Rob has worked alongside and consulted for some of the top fitness facilities in Charlotte, NC and beyond — helping businesses and athletes achieve their highest potential.</p>
-    </div>
-    <div class="partners-grid">
-      <div class="partner-card reveal">
-        <img class="partner-logo" src="01_1000026201-edited.jpg.jpeg" alt="Rutan Athletic Club">
-        <p class="partner-name">Rutan Athletic Club</p>
-      </div>
-      <div class="partner-card reveal">
-        <img class="partner-logo" src="03_1000029867.jpg.jpeg" alt="Function Reforged Physical Therapy">
-        <p class="partner-name">Function Reforged Physical Therapy</p>
-      </div>
-      <div class="partner-card reveal">
-        <img class="partner-logo" src="04_20250425_153058.jpg.jpeg" alt="The Fitness Factory">
-        <p class="partner-name">The Fitness Factory · Charlotte, NC</p>
+<!-- PARTNERS -->
+<section class="partners" id="partners" style="padding:0;">
+  <div class="partners-hd rv" style="padding-top:8rem;">
+    <div class="stag">Partner Network</div>
+    <h2 class="sh2">Trusted by <em>Industry Leaders</em></h2>
+    <p style="color:var(--muted);font-size:.92rem;line-height:1.8;max-width:480px;margin-top:.75rem;">Rob has consulted for and worked alongside these organizations — from boutique studios to national brands — helping coaches and facilities reach their full potential.</p>
+  </div>
+  <div style="padding:3rem 0 6rem;">
+    <div class="marquee-wrap">
+      <div class="marquee-track" id="marqueeTrack">
+        <!-- set rendered by JS to duplicate for infinite loop -->
+        <div class="partner-tile"><img class="p-logo" src="01_1000026201-edited.jpg.jpeg" alt="Rutan Athletic Club"><p class="p-name">Rutan Athletic Club</p></div>
+        <div class="partner-tile"><img class="p-logo" src="03_1000029867.jpg.jpeg" alt="Function Reforged"><p class="p-name">Function Reforged PT</p></div>
+        <div class="partner-tile"><img class="p-logo" src="04_20250425_153058.jpg.jpeg" alt="The Fitness Factory"><p class="p-name">The Fitness Factory</p></div>
+        <div class="partner-tile"><img class="p-logo" src="1000051911-1-edited.png" alt="Hopewells Counseling"><p class="p-name">Hopewells Counseling</p></div>
+        <div class="partner-tile"><img class="p-logo" src="1000051912-edited.png" alt="FitTrace"><p class="p-name">FitTrace</p></div>
+        <div class="partner-tile"><img class="p-logo" src="1000052928-1-1024x1021.png" alt="TechnoGym"><p class="p-name">TechnoGym</p></div>
+        <div class="partner-tile"><img class="p-logo" src="1000051906-1024x1020.png" alt="D1 Sports Training"><p class="p-name">D1 Sports Training</p></div>
+        <div class="partner-tile"><img class="p-logo" src="1000052972-1024x999.png" alt="Eden"><p class="p-name">Eden</p></div>
+        <div class="partner-tile"><img class="p-logo" src="1000051901-1024x1022.png" alt="NAMA CrossFit"><p class="p-name">NAMA CrossFit</p></div>
+        <div class="partner-tile"><img class="p-logo" src="1000051902-1024x1022.png" alt="IZAR Wellness Institute"><p class="p-name">IZAR Wellness Institute</p></div>
+        <div class="partner-tile"><img class="p-logo" src="1000051903-1024x1016.png" alt="Phoenix Physical Therapy"><p class="p-name">Phoenix Physical Therapy</p></div>
+        <div class="partner-tile"><img class="p-logo" src="1000051915-1024x1009.png" alt="FRAME Transformational Fitness"><p class="p-name">FRAME Fitness</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ PODCAST ══ -->
+<!-- GALLERY -->
+<section class="gallery" id="gallery" style="padding:0;">
+  <div class="gallery-hd rv">
+    <div class="stag">Gallery</div>
+    <h2 class="sh2">Results in the <em>Field</em></h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gi rv" data-idx="0">
+      <img src="05_a5c8d669c566468a9d40706668e02d8d_320441870_1998821490449934_3233756459709953176_n-edited.jpg.jpeg" alt="Rob with championship athlete">
+      <div class="gi-cap">Competition Day · Championship Win</div>
+    </div>
+    <div class="gi rv" data-idx="1">
+      <img src="Screenshot_20230922-152953-852x1024.png" alt="Client win with Rob" style="object-position:center 20%;">
+      <div class="gi-cap">NPC · Podium Win</div>
+    </div>
+    <div class="gi rv" data-idx="2">
+      <img src="Screenshot_20221013-155222.png" alt="Rob with male athlete">
+      <div class="gi-cap">Elite Total · Rob &amp; Client</div>
+    </div>
+    <div class="gi rv" data-idx="3">
+      <img src="Screenshot_20220506-142215.png" alt="Rob with client win">
+      <div class="gi-cap">Competition Win</div>
+    </div>
+    <div class="gi rv" data-idx="4">
+      <img src="Screenshot_20240122-193432-829x1024.png" alt="Client with medals">
+      <div class="gi-cap">Tillison Fitness · Triple Medal</div>
+    </div>
+    <div class="gi rv" data-idx="5">
+      <img src="Screenshot_20210612-055031.png" alt="Client achievement" onerror="this.parentElement.style.display='none'">
+      <div class="gi-cap">Client Achievement</div>
+    </div>
+    <div class="gi rv" data-idx="6">
+      <img src="Screenshot_20210612-054829.png" alt="Rob with two champions">
+      <div class="gi-cap">Double Championship · Back to Back</div>
+    </div>
+    <div class="gi rv" data-idx="7">
+      <img src="Screenshot_20250206-042418.png" alt="NPC champion client">
+      <div class="gi-cap">NPC Champion</div>
+    </div>
+    <div class="gi rv" data-idx="8">
+      <img src="Screenshot_20220514-214917.png" alt="First Responder Challenge win">
+      <div class="gi-cap">First Responder Challenge · Award</div>
+    </div>
+    <div class="gi rv" data-idx="9">
+      <img src="Screenshot_20201028-110133.png" alt="Team win" style="object-position:center 30%;">
+      <div class="gi-cap">Team Victory</div>
+    </div>
+    <div class="gi rv" data-idx="10">
+      <img src="Screenshot_20210612-055204-1.png" alt="Early championship win">
+      <div class="gi-cap">Championship Win</div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lb" id="lb">
+  <button class="lb-x" id="lbX">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev">&#8592;</button>
+  <img class="lb-img" id="lbImg" src="" alt="">
+  <button class="lb-nav lb-next" id="lbNext">&#8594;</button>
+</div>
+
+<!-- PODCAST -->
 <section class="podcast" id="podcast">
   <div class="inner">
-    <div class="podcast-grid">
+    <div class="pod-grid">
       <div>
-        <div class="section-tag reveal">The C3Method Podcast</div>
-        <h2 class="section-h2 reveal">2,000+ Episodes.<br><em>Zero Filler.</em></h2>
-        <div class="section-body reveal">
+        <div class="stag rv">The C3Method Podcast</div>
+        <h2 class="sh2 rv">2,000+ Episodes.<br><em>Zero Filler.</em></h2>
+        <div class="sbody rv">
           <p>Deep dives on nutrition science, training methodology, mindset, and direct listener Q&amp;A — downloaded across all 50 states and 100+ countries. This is where research meets the real world.</p>
         </div>
         <br>
-        <a href="#" class="btn btn-gold reveal">Listen Now</a>
-        <div class="podcast-stats reveal">
-          <div class="pod-stat">
-            <div class="pod-stat-num">2,000+</div>
-            <div class="pod-stat-lbl">Episodes</div>
-          </div>
-          <div class="pod-stat">
-            <div class="pod-stat-num">All 50</div>
-            <div class="pod-stat-lbl">States</div>
-          </div>
-          <div class="pod-stat">
-            <div class="pod-stat-num">100+</div>
-            <div class="pod-stat-lbl">Countries</div>
-          </div>
-          <div class="pod-stat">
-            <div class="pod-stat-num">Top</div>
-            <div class="pod-stat-lbl">Rated</div>
-          </div>
+        <a href="#" class="btn btn-gold rv">Listen Now</a>
+        <div class="pod-stats rv">
+          <div class="pod-s"><div class="pod-sn">2,000+</div><div class="pod-sl">Episodes</div></div>
+          <div class="pod-s"><div class="pod-sn">All 50</div><div class="pod-sl">States</div></div>
+          <div class="pod-s"><div class="pod-sn">100+</div><div class="pod-sl">Countries</div></div>
+          <div class="pod-s"><div class="pod-sn">Top</div><div class="pod-sl">Rated</div></div>
         </div>
       </div>
-      <div class="reveal">
-        <div class="podcast-card">
+      <div class="rv">
+        <div class="pod-card">
           <div class="waveform" id="waveform"></div>
-          <h4 class="podcast-card-title">The C3Method Podcast</h4>
-          <p class="podcast-card-desc">New episodes every week — Rob covers nutrition science, strength programming, mindset frameworks, and answers your questions directly. No guests who dilute the message. Just signal.</p>
+          <h4 class="pod-ct">The C3Method Podcast</h4>
+          <p class="pod-cd">New episodes every week — Rob covers nutrition science, strength programming, mindset frameworks, and answers your questions directly. No diluted guests. Just signal.</p>
           <div class="platforms">
             <span class="platform">Apple Podcasts</span>
             <span class="platform">Spotify</span>
@@ -914,81 +739,94 @@
   </div>
 </section>
 
-<!-- ══ CTA ══ -->
-<div class="cta-wrap" id="contact">
-  <div class="cta-inner">
-    <div class="section-tag reveal" style="justify-content:center;">Ready to Begin</div>
-    <div class="cta-divider reveal"></div>
-    <h2 class="cta-h2 reveal">Coaching Built<br>Around <em>You</em></h2>
-    <p class="cta-sub reveal">Stop settling for generic programs. The C3 Method delivers clear, concise, and completely customized coaching that gets you exactly where you need to be.</p>
-    <a href="https://cthreemethod.com/consultation-request/" class="btn btn-gold reveal">Request Your Consultation</a>
+<!-- CTA -->
+<div class="cta" id="contact">
+  <div class="cta-in">
+    <div class="stag rv" style="justify-content:center;">Ready to Begin</div>
+    <div class="cta-div rv"></div>
+    <h2 class="cta-h rv">Coaching Built<br>Around <em>You</em></h2>
+    <p class="cta-s rv">Stop settling for generic programs. The C3 Method delivers clear, concise, and completely customized coaching that gets you exactly where you need to be.</p>
+    <a href="https://cthreemethod.com/consultation-request/" class="btn btn-gold rv">Request Your Consultation</a>
   </div>
 </div>
 
-<!-- ══ FOOTER ══ -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <a href="#" class="footer-brand">C<span class="accent">3</span>Method</a>
-    <p class="footer-tagline">Clear. Concise. Customized.</p>
-    <p class="footer-copy">© 2026 C3Method. All rights reserved.</p>
+  <div class="foot">
+    <a href="#" class="foot-brand">C<span class="g">3</span>Method</a>
+    <p class="foot-tag">Clear. Concise. Customized.</p>
+    <p class="foot-copy">© 2026 C3Method. All rights reserved.</p>
   </div>
 </footer>
 
 <script>
-  // ── Nav scroll
+  // Nav scroll
   const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  }, { passive: true });
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), { passive: true });
 
-  // ── Hamburger
-  const hb = document.getElementById('hamburger');
-  const nl = document.getElementById('navLinks');
+  // Hamburger
+  const hb = document.getElementById('hb'), nl = document.getElementById('navLinks');
   hb.addEventListener('click', () => nl.classList.toggle('open'));
   nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
 
-  // ── Reveal on scroll
-  const revEls = document.querySelectorAll('.reveal');
-  const revObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.in)')];
-      const idx = siblings.indexOf(entry.target);
-      entry.target.style.transitionDelay = Math.min(idx * 0.08, 0.4) + 's';
-      entry.target.classList.add('in');
-      revObs.unobserve(entry.target);
+  // Reveal on scroll
+  const rvEls = document.querySelectorAll('.rv');
+  const rvObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const sibs = [...e.target.parentElement.querySelectorAll('.rv:not(.in)')];
+      e.target.style.transitionDelay = Math.min(sibs.indexOf(e.target) * 0.08, 0.4) + 's';
+      e.target.classList.add('in');
+      rvObs.unobserve(e.target);
     });
   }, { threshold: 0.08 });
-  revEls.forEach(el => revObs.observe(el));
+  rvEls.forEach(el => rvObs.observe(el));
 
-  // ── Counters
-  function runCounter(el) {
-    const target = +el.dataset.target;
-    const suffix = target >= 100 ? '+' : '+';
-    const dur = 1800;
-    const start = performance.now();
-    const tick = (now) => {
-      const t = Math.min((now - start) / dur, 1);
-      const ease = 1 - Math.pow(1 - t, 3);
-      el.textContent = Math.floor(ease * target).toLocaleString() + suffix;
-      if (t < 1) requestAnimationFrame(tick);
+  // Counters
+  function counter(el) {
+    const t = +el.dataset.target, dur = 1800, s = performance.now();
+    const tick = n => {
+      const p = Math.min((n - s) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(e * t).toLocaleString() + '+';
+      if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
   }
-  const ctrObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { runCounter(e.target); ctrObs.unobserve(e.target); }
-    });
+  const cObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { counter(e.target); cObs.unobserve(e.target); } });
   }, { threshold: 0.5 });
-  document.querySelectorAll('.stat-num[data-target]').forEach(el => ctrObs.observe(el));
+  document.querySelectorAll('.stat-n[data-target]').forEach(el => cObs.observe(el));
 
-  // ── Waveform
+  // Marquee — clone tiles for seamless loop
+  const track = document.getElementById('marqueeTrack');
+  track.innerHTML += track.innerHTML;
+
+  // Gallery lightbox
+  const lb = document.getElementById('lb');
+  const lbImg = document.getElementById('lbImg');
+  const imgs = [...document.querySelectorAll('.gi img')];
+  let cur = 0;
+  function openLB(i) {
+    cur = i; lbImg.src = imgs[i].src; lbImg.alt = imgs[i].alt;
+    lb.classList.add('open');
+  }
+  document.querySelectorAll('.gi').forEach((gi, i) => gi.addEventListener('click', () => openLB(i)));
+  document.getElementById('lbX').addEventListener('click', () => lb.classList.remove('open'));
+  document.getElementById('lbPrev').addEventListener('click', () => openLB((cur - 1 + imgs.length) % imgs.length));
+  document.getElementById('lbNext').addEventListener('click', () => openLB((cur + 1) % imgs.length));
+  lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') lb.classList.remove('open');
+    if (e.key === 'ArrowLeft')  openLB((cur - 1 + imgs.length) % imgs.length);
+    if (e.key === 'ArrowRight') openLB((cur + 1) % imgs.length);
+  });
+
+  // Waveform
   const wf = document.getElementById('waveform');
-  const heights = [12,22,40,60,80,95,80,65,50,35,20,40,70,90,100,85,65,45,28,50,75,95,80,60,40,22,38,65,85,60];
-  heights.forEach((h, i) => {
-    const b = document.createElement('div');
-    b.className = 'wbar';
-    b.style.cssText = `height:${h}%; animation-delay:${(i * 0.05) % 1.5}s; animation-duration:${1.2 + (i % 5) * 0.15}s;`;
+  [12,22,40,60,80,95,80,65,50,35,20,40,70,90,100,85,65,45,28,50,75,95,80,60,40,22,38,65,85,60].forEach((h, i) => {
+    const b = document.createElement('div'); b.className = 'wbar';
+    b.style.cssText = `height:${h}%;animation-delay:${(i*0.05)%1.5}s;animation-duration:${1.2+(i%5)*0.15}s;`;
     wf.appendChild(b);
   });
 </script>
