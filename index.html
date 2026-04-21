@@ -265,47 +265,88 @@
       color: var(--gold); border: 1px solid var(--border); padding: 0.3rem 0.75rem;
     }
 
-    /* ── PARTNERS MARQUEE ── */
-    .partners { background: var(--bg); overflow: hidden; padding: 6rem 0; }
-    .partners .inner { padding: 0 4rem; }
-    .partners-hd { margin-bottom: 3.5rem; padding: 0 4rem; }
-    .marquee-wrap {
+    /* ── PARTNERS WEB ── */
+    .partners { background: var(--bg); padding: 8rem 4rem; }
+    .web-container {
       position: relative;
-      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      width: 100%; max-width: 960px;
+      height: 560px;
+      margin: 4rem auto 0;
     }
-    .marquee-track {
-      display: flex; gap: 0px;
-      width: max-content;
-      animation: marquee 30s linear infinite;
+    .web-svg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; overflow: visible;
     }
-    .marquee-track:hover { animation-play-state: paused; }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+    .web-edge {
+      stroke: rgba(200,151,58,0.12);
+      stroke-width: 1;
+      transition: stroke 0.4s, stroke-width 0.4s, opacity 0.4s;
+      opacity: 1;
     }
-    .partner-tile {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 1rem; padding: 2rem 3rem; min-width: 200px;
-      border-right: 1px solid var(--border);
-      transition: background 0.3s;
-      flex-shrink: 0;
+    .web-edge.lit {
+      stroke: rgba(200,151,58,0.65);
+      stroke-width: 1.5;
     }
-    .partner-tile:hover { background: var(--bg2); }
-    .p-logo {
-      height: 56px; width: 140px;
+    .web-edge.dim { opacity: 0.25; }
+
+    .web-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.45rem;
+      cursor: default;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.35s;
+      z-index: 2;
+      opacity: 0;
+    }
+    .web-node.visible { opacity: 1; }
+    .web-node.dim { opacity: 0.28; }
+    .web-node:hover {
+      transform: translate(-50%, -50%) scale(1.35);
+      z-index: 10;
+    }
+    .node-bubble {
+      width: 76px; height: 76px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 1px solid rgba(200,151,58,0.18);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      transition: border-color 0.4s, box-shadow 0.4s, background 0.4s;
+    }
+    .web-node:hover .node-bubble {
+      border-color: var(--gold);
+      box-shadow: 0 0 18px rgba(200,151,58,0.4), 0 0 50px rgba(200,151,58,0.12);
+      background: var(--bg3);
+    }
+    .web-node.neighbor .node-bubble {
+      border-color: rgba(200,151,58,0.45);
+      box-shadow: 0 0 8px rgba(200,151,58,0.18);
+    }
+    .node-img {
+      width: 52px; height: 52px;
       object-fit: contain;
-      filter: grayscale(100%) brightness(0.55);
+      filter: grayscale(100%) brightness(0.45);
       transition: filter 0.4s;
+      pointer-events: none;
     }
-    .partner-tile:hover .p-logo { filter: grayscale(0%) brightness(1); }
-    .p-name {
-      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--dim);
-      transition: color 0.3s; text-align: center;
-      max-width: 160px; line-height: 1.4;
+    .web-node:hover .node-img   { filter: grayscale(0%) brightness(1); }
+    .web-node.neighbor .node-img { filter: grayscale(60%) brightness(0.7); }
+    .node-label {
+      font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--dim); white-space: nowrap;
+      transition: color 0.35s;
+      max-width: 100px; text-align: center; line-height: 1.3;
+      white-space: normal;
     }
-    .partner-tile:hover .p-name { color: var(--muted); }
+    .web-node:hover .node-label   { color: var(--gold); }
+    .web-node.neighbor .node-label { color: var(--muted); }
+
+    @media (max-width: 860px) {
+      .web-container { height: auto; min-height: 0; }
+      .partners { padding: 5rem 1.5rem; }
+    }
 
     /* ── GALLERY ── */
     .gallery { background: var(--bg2); padding-bottom: 8rem; }
@@ -460,6 +501,9 @@
       .partners-hd { padding-left: 2.5rem; padding-right: 2.5rem; }
       .about-grid, .pod-grid { gap: 4rem; }
       .hero-content { padding-left: 2.5rem; padding-right: 2.5rem; }
+    }
+    @media (max-width: 860px) {
+      #mobilePartners { grid-template-columns: repeat(2,1fr) !important; }
     }
     @media (max-width: 860px) {
       nav { padding: 1.25rem 1.5rem; }
@@ -626,31 +670,20 @@
 </section>
 
 <!-- PARTNERS -->
-<section class="partners" id="partners" style="padding:0;">
-  <div class="partners-hd rv" style="padding-top:8rem;">
-    <div class="stag">Partner Network</div>
-    <h2 class="sh2">Trusted by <em>Industry Leaders</em></h2>
-    <p style="color:var(--muted);font-size:.92rem;line-height:1.8;max-width:480px;margin-top:.75rem;">Rob has consulted for and worked alongside these organizations — from boutique studios to national brands — helping coaches and facilities reach their full potential.</p>
+<section class="partners" id="partners">
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="stag rv">Partner Network</div>
+    <h2 class="sh2 rv">Trusted by <em>Industry Leaders</em></h2>
+    <p class="rv" style="color:var(--muted);font-size:.92rem;line-height:1.8;max-width:460px;margin-top:.75rem;">From boutique studios to national brands — Rob has consulted for and worked alongside these organizations.</p>
   </div>
-  <div style="padding:3rem 0 6rem;">
-    <div class="marquee-wrap">
-      <div class="marquee-track" id="marqueeTrack">
-        <!-- set rendered by JS to duplicate for infinite loop -->
-        <div class="partner-tile"><img class="p-logo" src="01_1000026201-edited.jpg.jpeg" alt="Rutan Athletic Club"><p class="p-name">Rutan Athletic Club</p></div>
-        <div class="partner-tile"><img class="p-logo" src="03_1000029867.jpg.jpeg" alt="Function Reforged"><p class="p-name">Function Reforged PT</p></div>
-        <div class="partner-tile"><img class="p-logo" src="04_20250425_153058.jpg.jpeg" alt="The Fitness Factory"><p class="p-name">The Fitness Factory</p></div>
-        <div class="partner-tile"><img class="p-logo" src="1000051911-1-edited.png" alt="Hopewells Counseling"><p class="p-name">Hopewells Counseling</p></div>
-        <div class="partner-tile"><img class="p-logo" src="1000051912-edited.png" alt="FitTrace"><p class="p-name">FitTrace</p></div>
-        <div class="partner-tile"><img class="p-logo" src="1000052928-1-1024x1021.png" alt="TechnoGym"><p class="p-name">TechnoGym</p></div>
-        <div class="partner-tile"><img class="p-logo" src="1000051906-1024x1020.png" alt="D1 Sports Training"><p class="p-name">D1 Sports Training</p></div>
-        <div class="partner-tile"><img class="p-logo" src="1000052972-1024x999.png" alt="Eden"><p class="p-name">Eden</p></div>
-        <div class="partner-tile"><img class="p-logo" src="1000051901-1024x1022.png" alt="NAMA CrossFit"><p class="p-name">NAMA CrossFit</p></div>
-        <div class="partner-tile"><img class="p-logo" src="1000051902-1024x1022.png" alt="IZAR Wellness Institute"><p class="p-name">IZAR Wellness Institute</p></div>
-        <div class="partner-tile"><img class="p-logo" src="1000051903-1024x1016.png" alt="Phoenix Physical Therapy"><p class="p-name">Phoenix Physical Therapy</p></div>
-        <div class="partner-tile"><img class="p-logo" src="1000051915-1024x1009.png" alt="FRAME Transformational Fitness"><p class="p-name">FRAME Fitness</p></div>
-      </div>
-    </div>
+
+  <div class="web-container" id="webContainer">
+    <svg class="web-svg" id="webSvg"></svg>
+    <!-- nodes injected by JS -->
   </div>
+
+  <!-- Mobile fallback grid (hidden on desktop) -->
+  <div class="mobile-partners" id="mobilePartners" style="display:none;"></div>
 </section>
 
 <!-- GALLERY -->
@@ -816,9 +849,124 @@
   }, { threshold: 0.5 });
   document.querySelectorAll('.stat-n[data-target]').forEach(el => cObs.observe(el));
 
-  // Marquee — clone tiles for seamless loop
-  const track = document.getElementById('marqueeTrack');
-  track.innerHTML += track.innerHTML;
+  // ── Partner Web ──
+  const NODES = [
+    { x: 15, y: 18, src: '01_1000026201-edited.jpg.jpeg',        name: 'Rutan Athletic Club' },
+    { x: 46, y: 5,  src: '03_1000029867.jpg.jpeg',               name: 'Function Reforged PT' },
+    { x: 78, y: 13, src: '04_20250425_153058.jpg.jpeg',          name: 'The Fitness Factory' },
+    { x: 93, y: 46, src: '1000051911-1-edited.png',              name: 'Hopewells Counseling' },
+    { x: 80, y: 80, src: '1000051912-edited.png',                name: 'FitTrace' },
+    { x: 50, y: 93, src: '1000052928-1-1024x1021.png',           name: 'TechnoGym' },
+    { x: 20, y: 82, src: '1000051906-1024x1020.png',             name: 'D1 Sports Training' },
+    { x: 5,  y: 48, src: '1000052972-1024x999.png',              name: 'Eden' },
+    { x: 36, y: 36, src: '1000051901-1024x1022.png',             name: 'NAMA CrossFit' },
+    { x: 66, y: 30, src: '1000051902-1024x1022.png',             name: 'IZAR Wellness' },
+    { x: 61, y: 63, src: '1000051903-1024x1016.png',             name: 'Phoenix PT' },
+    { x: 32, y: 63, src: '1000051915-1024x1009.png',             name: 'FRAME Fitness' },
+  ];
+  const EDGES = [
+    [0,1],[0,7],[0,8],
+    [1,2],[1,8],[1,9],
+    [2,3],[2,9],
+    [3,4],[3,9],
+    [4,5],[4,10],
+    [5,6],[5,10],[5,11],
+    [6,7],[6,11],
+    [7,8],
+    [8,9],[8,11],
+    [9,10],
+    [10,11],
+  ];
+
+  const webContainer = document.getElementById('webContainer');
+  const webSvg = document.getElementById('webSvg');
+  const isMobile = () => window.innerWidth <= 860;
+
+  function buildWeb() {
+    if (isMobile()) { buildMobileGrid(); return; }
+    webContainer.style.display = 'block';
+    document.getElementById('mobilePartners').style.display = 'none';
+
+    // Draw edges
+    webSvg.innerHTML = '';
+    const W = webContainer.offsetWidth, H = webContainer.offsetHeight;
+    EDGES.forEach(([a, b], i) => {
+      const na = NODES[a], nb = NODES[b];
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', na.x / 100 * W);
+      line.setAttribute('y1', na.y / 100 * H);
+      line.setAttribute('x2', nb.x / 100 * W);
+      line.setAttribute('y2', nb.y / 100 * H);
+      line.classList.add('web-edge');
+      line.dataset.edge = i;
+      webSvg.appendChild(line);
+    });
+
+    // Clear old nodes
+    webContainer.querySelectorAll('.web-node').forEach(n => n.remove());
+
+    // Build adjacency map
+    const adj = NODES.map(() => []);
+    EDGES.forEach(([a, b], i) => { adj[a].push({ node: b, edge: i }); adj[b].push({ node: a, edge: i }); });
+
+    // Draw nodes
+    NODES.forEach((n, i) => {
+      const el = document.createElement('div');
+      el.className = 'web-node';
+      el.style.left = n.x + '%';
+      el.style.top  = n.y + '%';
+      el.innerHTML = `
+        <div class="node-bubble">
+          <img class="node-img" src="${n.src}" alt="${n.name}">
+        </div>
+        <span class="node-label">${n.name}</span>`;
+
+      el.addEventListener('mouseenter', () => {
+        webContainer.classList.add('has-hover');
+        const neighborIdxs = adj[i].map(a => a.node);
+        const edgeIdxs     = adj[i].map(a => a.edge);
+        webContainer.querySelectorAll('.web-node').forEach((nd, j) => {
+          if (j === i) return;
+          nd.classList.toggle('neighbor', neighborIdxs.includes(j));
+          nd.classList.toggle('dim', !neighborIdxs.includes(j));
+        });
+        webSvg.querySelectorAll('.web-edge').forEach((ln, j) => {
+          ln.classList.toggle('lit', edgeIdxs.includes(j));
+          ln.classList.toggle('dim', !edgeIdxs.includes(j));
+        });
+      });
+      el.addEventListener('mouseleave', () => {
+        webContainer.classList.remove('has-hover');
+        webContainer.querySelectorAll('.web-node').forEach(nd => nd.classList.remove('neighbor','dim'));
+        webSvg.querySelectorAll('.web-edge').forEach(ln => ln.classList.remove('lit','dim'));
+      });
+
+      webContainer.appendChild(el);
+    });
+
+    // Stagger entrance
+    const allNodes = webContainer.querySelectorAll('.web-node');
+    const webObs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      allNodes.forEach((nd, i) => setTimeout(() => nd.classList.add('visible'), i * 60));
+      webObs.disconnect();
+    }, { threshold: 0.2 });
+    webObs.observe(webContainer);
+  }
+
+  function buildMobileGrid() {
+    webContainer.style.display = 'none';
+    const mp = document.getElementById('mobilePartners');
+    mp.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:2.5rem;';
+    mp.innerHTML = NODES.map(n => `
+      <div style="background:var(--bg2);padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:.75rem;">
+        <img src="${n.src}" alt="${n.name}" style="height:44px;width:100%;object-fit:contain;filter:grayscale(100%) brightness(0.6);">
+        <span style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-align:center;">${n.name}</span>
+      </div>`).join('');
+  }
+
+  buildWeb();
+  window.addEventListener('resize', buildWeb);
 
   // Gallery lightbox
   const lb = document.getElementById('lb');
